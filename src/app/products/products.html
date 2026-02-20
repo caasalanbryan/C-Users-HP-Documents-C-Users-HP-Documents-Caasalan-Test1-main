@@ -1,0 +1,99 @@
+<header class="navbar">
+  <div class="logo">LUXE<span>DRIVE</span></div>
+  
+  <nav>
+    <ul class="nav-links">
+      <li><a href="#">Home</a></li>
+      <li><a href="#inventory">Inventory</a></li>
+      <li><a href="#">Showroom</a></li>
+      <li><a href="#">Inquiry</a></li>
+    </ul>
+  </nav>
+
+  <div class="cart-summary">
+    <span class="cart-badge">Items: {{ cartCount() }}</span>
+    <span class="total-price">Total: {{ cartTotal() | currency:'USD':'symbol':'1.0-0' }}</span>
+  </div>
+</header>
+
+<section class="hero-plain">
+  <h1>DRIVE THE <span>EXTRAORDINARY</span></h1>
+  <p>Premium Luxury Automotive Experience</p>
+</section>
+
+<section class="inventory" id="inventory">
+  <div class="container">
+    <h2 class="section-title">Available Fleet</h2>
+
+    <div class="filter-section">
+      <label for="category">Filter by Type:</label>
+      <select id="category" [ngModel]="selectedCategory()" (ngModelChange)="selectedCategory.set($event)">
+        <option *ngFor="let c of categories()" [value]="c">{{ c }}</option>
+      </select>
+    </div>
+
+    <div class="car-grid">
+      <div class="car-card" *ngFor="let car of filtered()">
+        <div class="image-wrapper">
+          <img [src]="car.image" [alt]="car.name" />
+        </div>
+        
+        <h3>{{ car.name }}</h3>
+        <p class="description">{{ car.description }}</p>
+        
+        <div class="stock-info">
+          <p *ngIf="car.available && car.stock > 0; else outStock" class="status in-stock">
+            ● Available - <strong>{{ car.stock }} pcs left</strong>
+          </p>
+          <ng-template #outStock>
+            <p class="status out-of-stock">● Sold Out - 0 pcs left</p>
+          </ng-template>
+        </div>
+        
+        <span class="price">{{ car.price | currency:'USD':'symbol':'1.0-0' }}</span>
+        
+        <button 
+          class="reserve-btn" 
+          (click)="addToCart(car)" 
+          [disabled]="car.stock === 0">
+          {{ car.stock > 0 ? 'Reserve Now' : 'Out of Stock' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Cart Display Section -->
+<section class="cart-section">
+  <div class="container">
+    <h2 class="section-title">Your Reservations</h2>
+    
+    <div *ngIf="cartCount() === 0; else cartItems" class="empty-cart">
+      <p>No vehicles reserved yet. Browse the fleet above!</p>
+    </div>
+    
+    <ng-template #cartItems>
+      <div class="cart-table">
+        <div class="cart-header">
+          <div class="col-name">Vehicle</div>
+          <div class="col-price">Price</div>
+          <div class="col-action">Action</div>
+        </div>
+        <div class="cart-item" *ngFor="let item of cart()">
+          <div class="col-name">{{ item.name }}</div>
+          <div class="col-price">{{ item.price | currency:'USD':'symbol':'1.0-0' }}</div>
+          <div class="col-action">
+            <button class="remove-btn" (click)="removeFromCart(item.cartId)">Remove</button>
+          </div>
+        </div>
+        <div class="cart-footer">
+          <div class="total-row">
+            <span>Total Reservation Value:</span>
+            <span class="total-amount">{{ cartTotal() | currency:'USD':'symbol':'1.0-0' }}</span>
+          </div>
+          <button class="checkout-btn">Proceed to Checkout</button>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</section>

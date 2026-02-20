@@ -1,0 +1,16 @@
+:root {
+    --bg-gray: #e0e0e0; /* Plain Light Gray */
+    --gold: #d4af37;
+    --text-dark: #1a1a1a;
+    --white: #ffffff;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    background-color: var(--bg-gray);
+    color: var(--text-dark);
+    font-family: 'Montserrat', sans-serif;
+    scroll-behavior: smooth;
+}
