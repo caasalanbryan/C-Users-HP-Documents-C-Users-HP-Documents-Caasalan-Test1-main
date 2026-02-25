@@ -34,14 +34,8 @@ body {
 
 /* Cart Summary Styling */
 .cart-summary { color: white; font-size: 0.9rem; display: flex; align-items: center; }
-.cart-badge { 
-    background: #d4af37; 
-    color: black; 
-    padding: 4px 10px; 
-    border-radius: 20px; 
-    font-weight: bold; 
-    margin-right: 15px; 
-}
+.cart-link { color: white; text-decoration: none; font-weight: bold; background: #d4af37; padding: 6px 12px; border-radius: 20px; }
+.cart-link:hover { background: #c99f2e; }
 
 /* Hero Section */
 .hero-plain {
